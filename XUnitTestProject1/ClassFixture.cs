@@ -21,34 +21,38 @@ namespace XUnitTestProject1
         }
     }
 
+    //Collection makes sure that the tests in the class run in serial [default is parallel]
+    [Collection("Sequential Integeration Tests")]
     public class DeviceTests : IClassFixture<ClassFixture>
     {
-        //ClassFixture Fixture;
-        //public DeviceTests(ClassFixture fixture)
-        //{
-        //    this.Fixture = fixture;
-        //}
-
-        //[Fact]
-        //public void CountTest1 ()
-        //{
-        //    var device = this.Fixture.device;
-        //    device.IncCount();
-        //    Assert.Equal(1, device.GetCount());
-        //}
-
-        //[Fact]
-        //public void CountTest2 ()
-        //{
-        //    var device = this.Fixture.device;
-        //    device.IncCount();
-        //    Assert.Equal(2, device.GetCount());
-        //}
+        ClassFixture Fixture;
+        public DeviceTests(ClassFixture fixture)
+        {
+            this.Fixture = fixture;
+        }
 
         [Fact]
-        public void DefaultTest()
+        [Trait("Category", "Integration")]
+        public void CountTest1()
         {
-            Assert.True(true);
+            var device = this.Fixture.device;
+            device.IncCount();
+            Assert.Equal(1, device.GetCount());
         }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public void CountTest2()
+        {
+            var device = this.Fixture.device;
+            device.IncCount();
+            Assert.Equal(2, device.GetCount());
+        }
+
+        //[Fact]
+        //public void DefaultTest()
+        //{
+        //    Assert.True(true);
+        //}
     }
 }

@@ -7,13 +7,19 @@ namespace XUnitTestProject1
     public class TestAsContext
     {
         private Device _device;
-        private string _testName;
+
+        /**
+         * The constructor and Dispose methods are called before and after every test method
+         * Does not share the instance among all unit tests
+             */
         public TestAsContext()
         {
             _device = new Device("UnitTest-1");
         }
 
+        // Fact is the test method without arguments
         [Fact]
+        // Category is default. Trait is used for grouping by Category. The Custom categories can be also extended
         [Trait("Category", "Inc")]
         public void Test1()
         {
