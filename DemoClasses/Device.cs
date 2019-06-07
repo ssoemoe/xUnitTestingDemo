@@ -14,6 +14,12 @@ namespace TestDLL.DemoClasses
             this.Count = 0;
         }
 
+        // Destructor
+        ~Device()
+        {
+            Console.WriteLine("Destructing..." + this);
+        }
+
         public void Print()
         {
             Console.WriteLine($"Testing From Device - {this.Name}");

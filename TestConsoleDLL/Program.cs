@@ -1,6 +1,24 @@
 ﻿using System;
 using TestDLL.DemoClasses;
 using System.Diagnostics;
+using Extensions; // Use the namespace here
+
+namespace Extensions 
+{
+    public static class StringExtensions
+    {
+        public static int? LetterCount(this String str)
+        {
+            char[] chars = str.ToCharArray();
+            int? count = 0;
+            foreach(char c in chars)
+            {
+                if (c != ' ') count++;
+            }
+            return count;
+        }
+    }
+}
 
 namespace TestConsoleDLL
 {
@@ -8,18 +26,47 @@ namespace TestConsoleDLL
     {
         static void Main(string[] args)
         {
+            Device device = new Device("Destruction Test");
+            Console.WriteLine("Done!");
+        }
+
+        public static void TestParamArray(params int[] digits)
+        {
+            int? sum = 0;
+            foreach(int d in digits)
+            {
+                sum += d;
+            }
+            Console.WriteLine(sum);
+        }
+
+        public static void TestNullable()
+        {
+            int? testInt = null;
+            int? testVar = testInt ?? -100;
+            Console.WriteLine(testVar);
+        }
+
+        public static void TestOperators()
+        {
+            Console.WriteLine($"{typeof(int)} is {sizeof(int)} big" );
+            Console.WriteLine(1 == 1 ? true : false);
+        }
+
+        public static void TestDuration()
+        {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            for(int i=0; i < 1000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Object device = new Device($"D-{i}");
-                Console.WriteLine( ( (Device) device).Name);
+                Console.WriteLine(((Device)device).Name);
             }
             stopWatch.Stop();
             TimeSpan objectTs = stopWatch.Elapsed;
 
             stopWatch.Start();
-            for(int j = 0; j < 1000; j++)
+            for (int j = 0; j < 1000; j++)
             {
                 var device = new Device("E-" + j);
                 Console.WriteLine(device.Name);
