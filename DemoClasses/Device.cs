@@ -2,6 +2,7 @@
 
 namespace TestDLL.DemoClasses
 {
+
     public class Device
     {
         public int Count { get; set; }

@@ -31,10 +31,25 @@ namespace OOP {
             this.Name = name;
             this.Age = age;
         }
+
+        // allows the method to be overriden
+        public virtual void Promote()
+        {
+            Console.WriteLine("Promoted!");
+        }
         
-        public string ToString()
+        public override string ToString()
         {
             return $"[{Name} - {Age}]";
+        }
+
+        public string ToString(string type)
+        {
+            if(type.Equals("json", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return $"{{name: {Name}, age: {Age}}}";
+            }
+            return null;
         }
     }
 
@@ -50,6 +65,11 @@ namespace OOP {
 
         }
 
+        public override void Promote()
+        {
+            Console.WriteLine("Prmoted to Chief Doctor!");
+        }
+
         public void Heal()
         {
             Console.WriteLine("Healing...");
@@ -63,9 +83,11 @@ namespace TestConsoleDLL
     {
         static void Main(string[] args)
         {
-            Doctor doc = new Doctor("Khin", 35);
-            Console.WriteLine(doc.ToString());
-            doc.Heal();
+            Line l1 = new Line(100);
+            Line l2 = new Line(987);
+            Line newLine = l1 + l2;
+            Console.WriteLine(newLine.Length);
+            Console.WriteLine(l1 == l2);
         }
 
         public static void TestParamArray(params int[] digits)
