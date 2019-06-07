@@ -2,6 +2,7 @@
 using TestDLL.DemoClasses;
 using System.Diagnostics;
 using Extensions; // Use the namespace here
+using OOP;
 
 namespace Extensions 
 {
@@ -20,14 +21,51 @@ namespace Extensions
     }
 }
 
+namespace OOP {
+    public class Person
+    {
+        public string Name { private set; get; }
+        public int Age { private set; get; }
+        public Person(string name, int age)
+        {
+            this.Name = name;
+            this.Age = age;
+        }
+        
+        public string ToString()
+        {
+            return $"[{Name} - {Age}]";
+        }
+    }
+
+    public interface IHeal
+    {
+        void Heal();
+    }
+
+    public class Doctor : Person, IHeal
+    {
+        public Doctor(string name, int age) : base(name, age)
+        {
+
+        }
+
+        public void Heal()
+        {
+            Console.WriteLine("Healing...");
+        }
+    }
+}
+
 namespace TestConsoleDLL
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Device device = new Device("Destruction Test");
-            Console.WriteLine("Done!");
+            Doctor doc = new Doctor("Khin", 35);
+            Console.WriteLine(doc.ToString());
+            doc.Heal();
         }
 
         public static void TestParamArray(params int[] digits)
