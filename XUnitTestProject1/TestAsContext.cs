@@ -4,7 +4,7 @@ using TestDLL.DemoClasses;
 
 namespace XUnitTestProject1
 {
-    public class TestAsContext
+    public class TestAsContext: IDisposable
     {
         private Device _device;
 
@@ -15,6 +15,10 @@ namespace XUnitTestProject1
         public TestAsContext()
         {
             _device = new Device("UnitTest-1");
+        }
+        public void Dispose()
+        {
+            _device = null;
         }
 
         // Fact is the test method without arguments
@@ -47,5 +51,6 @@ namespace XUnitTestProject1
             _device.Count = count;
                 Assert.Equal(count, _device.GetCount());
         }
+
     }
 }

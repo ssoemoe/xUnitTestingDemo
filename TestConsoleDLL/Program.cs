@@ -1,95 +1,40 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using TestDLL.DemoClasses;
 using System.Diagnostics;
+using System.Configuration;
 using Extensions; // Use the namespace here
 using OOP;
 
-namespace Extensions 
-{
-    public static class StringExtensions
-    {
-        public static int? LetterCount(this String str)
-        {
-            char[] chars = str.ToCharArray();
-            int? count = 0;
-            foreach(char c in chars)
-            {
-                if (c != ' ') count++;
-            }
-            return count;
-        }
-    }
-}
-
-namespace OOP {
-    public class Person
-    {
-        public string Name { private set; get; }
-        public int Age { private set; get; }
-        public Person(string name, int age)
-        {
-            this.Name = name;
-            this.Age = age;
-        }
-
-        // allows the method to be overriden
-        public virtual void Promote()
-        {
-            Console.WriteLine("Promoted!");
-        }
-        
-        public override string ToString()
-        {
-            return $"[{Name} - {Age}]";
-        }
-
-        public string ToString(string type)
-        {
-            if(type.Equals("json", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return $"{{name: {Name}, age: {Age}}}";
-            }
-            return null;
-        }
-    }
-
-    public interface IHeal
-    {
-        void Heal();
-    }
-
-    public class Doctor : Person, IHeal
-    {
-        public Doctor(string name, int age) : base(name, age)
-        {
-
-        }
-
-        public override void Promote()
-        {
-            Console.WriteLine("Prmoted to Chief Doctor!");
-        }
-
-        public void Heal()
-        {
-            Console.WriteLine("Healing...");
-        }
-    }
-}
-
 namespace TestConsoleDLL
 {
+
     class Program
     {
         static void Main(string[] args)
         {
-            Line l1 = new Line(100);
-            Line l2 = new Line(987);
-            Line newLine = l1 + l2;
-            Console.WriteLine(newLine.Length);
-            Console.WriteLine(l1 == l2);
-        }
+            IShape shape = new Circle();
+            DependencyInjection dependencyInjection = new DependencyInjection(shape);
+            dependencyInjection.Draw();
+            dependencyInjection = null;
+            DependencyInjection dependencyInjection2 = new DependencyInjection();
 
+            IShape line = new Line(12);
+            dependencyInjection2.RegisterShape(line);
+            dependencyInjection2.Draw();
+            dependencyInjection2 = null;
+
+            line = new Line(678);
+            dependencyInjection = new DependencyInjection();
+            dependencyInjection._shape = line;
+            dependencyInjection.Draw();
+
+
+#if (DEBUG)
+            Console.WriteLine("DEBUG is defined!");
+#endif
+
+        }
         public static void TestParamArray(params int[] digits)
         {
             int? sum = 0;
@@ -136,6 +81,80 @@ namespace TestConsoleDLL
 
             Console.WriteLine("Duration (Boxing/Unboxing): " + objectTs.Milliseconds + " ms");
             Console.WriteLine("Duration (Var): " + varTs.Milliseconds + " ms");
+        }
+    }
+}
+
+namespace Extensions
+{
+    public static class StringExtensions
+    {
+        public static int? LetterCount(this String str)
+        {
+            char[] chars = str.ToCharArray();
+            int? count = 0;
+            foreach (char c in chars)
+            {
+                if (c != ' ') count++;
+            }
+            return count;
+        }
+    }
+}
+
+namespace OOP
+{
+    public class Person
+    {
+        public string Name { private set; get; }
+        public int Age { private set; get; }
+        public Person(string name, int age)
+        {
+            this.Name = name;
+            this.Age = age;
+        }
+
+        // allows the method to be overriden
+        public virtual void Promote()
+        {
+            Console.WriteLine("Promoted!");
+        }
+
+        public override string ToString()
+        {
+            return $"[{Name} - {Age}]";
+        }
+
+        public string ToString(string type)
+        {
+            if (type.Equals("json", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return $"{{name: {Name}, age: {Age}}}";
+            }
+            return null;
+        }
+    }
+
+    public interface IHeal
+    {
+        void Heal();
+    }
+
+    public class Doctor : Person, IHeal
+    {
+        public Doctor(string name, int age) : base(name, age)
+        {
+
+        }
+
+        public override void Promote()
+        {
+            Console.WriteLine("Prmoted to Chief Doctor!");
+        }
+
+        public void Heal()
+        {
+            Console.WriteLine("Healing...");
         }
     }
 }

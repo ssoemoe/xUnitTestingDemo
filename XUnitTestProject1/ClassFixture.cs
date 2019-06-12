@@ -9,7 +9,7 @@ namespace XUnitTestProject1
     // to share an instance among all tests
     public class ClassFixture : IDisposable
     {
-        public Device device {set; get;}
+        public  Device device {set; get;}
         public ClassFixture()
         {
             device = new Device("Shared-1");
